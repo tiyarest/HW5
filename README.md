@@ -1,8 +1,8 @@
 # HW5  
 
-* 第五次作业 *
+## 第五次作业 ##
 
-* 作业一：一个简单的TO-DO list app普通版+进阶 *
+## 作业一：一个简单的TO-DO list app普通版+进阶 ##
 数据库设计：  
 
 V1：  
@@ -64,7 +64,7 @@ TodoDbHelper：定义数据库名、版本；创建数据库。其中我们要�
         }
     }
 
-MainActivity:
+MainActivity:在onCreate（）里面实例化一个TodoDbHelper打开数据库，在onDestroy（）释放资源  
 
 查询数据库，更新UI：将每一个元祖对应到一个note里面，得到一个list，根据list更新ui。 
 
@@ -151,13 +151,57 @@ MainActivity:
 对数据库的更新，删除方式参照pdf。  
 
 
-NoteActivity：  
+NoteActivity：在onCreate（）里面实例化一个TodoDbHelper打开数据库，在onDestroy（）释放资源  
 
 增加布局：一个说明的textview  和一个下拉列表 Spinner
    
 插入数据的方法如pdf。    
 
-练习二：  
+## 作业二：文件读写 ##  
+
+
+                //如果有sd卡
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) try {
+                    file = new File(Environment.getExternalStorageDirectory() + "/test.txt");
+                    fos = new FileOutputStream(file);
+                    byte[] strs = content.getBytes("UTF8");
+                    fos.write(strs);
+                    fos.close();
+                    fis = new FileInputStream(file);
+                    strs = new byte[fis.available()];
+                    fis.read(strs);
+                    fileText.setText(new String(strs,"UTF-8"));
+                    fis.close();
+
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                else {
+
+                    file = new File(Environment.getDataDirectory() + "");
+                    try {
+                        fos = new FileOutputStream(file);
+                        byte[] strs = content.getBytes("UTF8");
+                        fos.write(strs);
+                        fos.close();
+                        fis = new FileInputStream(file);
+                        strs = new byte[fis.available()];
+                        fis.read(strs);
+                        fileText.setText(new String(strs,"UTF-8"));
+                        fis.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
 
 
