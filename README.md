@@ -1,8 +1,8 @@
 # HW5  
 
-*第五次作业*
+* 第五次作业 *
 
-*作业一：一个简单的TO-DO list app普通版+进阶*
+* 作业一：一个简单的TO-DO list app普通版+进阶 *
 数据库设计：  
 
 V1：  
@@ -87,7 +87,7 @@ MainActivity:
                     null,
                     null,
                     null,
-                    TodoContract.TodoEntry.TABLE_PRIORITY+" DESC"
+                    TodoContract.TodoEntry.TABLE_PRIORITY+" DESC"  //根据优先级排序
 
 
             );
@@ -113,6 +113,40 @@ MainActivity:
                 cursor.close();
             }
         }
+根据查询结果更新ui  
+
+   
+    public void bind(final Note note) {
+        contentText.setText(note.getContent());
+        dateText.setText(SIMPLE_DATE_FORMAT.format(note.getDate()));
+        
+       //根据优先级修改权限
+        if(note.getPriority().equals("1"))
+            itemView.setBackgroundColor(0x70FAFAD2);
+        else if(note.getPriority().equals("2"))
+            itemView.setBackgroundColor(0x70FFD700);
+        else
+            itemView.setBackgroundColor(0x70EE6363);
+        
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setChecked(note.getState() == State.DONE);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                note.setState(isChecked ? State.DONE : State.TODO);
+                operator.updateNote(note);
+                change(note);
+            }
+        });
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operator.deleteNote(note);
+            }
+        });
+        change(note);
+    }
+
 
 对数据库的更新，删除方式参照pdf。  
 
@@ -120,27 +154,10 @@ MainActivity:
 NoteActivity：  
 
 增加布局：一个说明的textview  和一个下拉列表 Spinner
-
-  '''<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="wrap_content"
-            android:text="请选择事件的优先级："
-            android:textSize="20dp"
-            />
-        <Spinner
-            android:id="@+id/priority"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:entries="@array/Data"/>
-    </LinearLayout>'''
    
-插入数据的方法如pdf。  
+插入数据的方法如pdf。    
+
+练习二：  
 
 
 
