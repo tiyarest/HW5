@@ -16,7 +16,7 @@ Id（INTEGER PRIMARY KEY AUTOINCREMENT）  content(text)   status(INTEGER)    da
 
 数据库实现：  
 
-TodoContract：存放其数据库表的属性名称及其SQL语句。
+TodoContract：存放其数据库表的属性名称及其SQL语句。  
 
     //创建表操作
     public  static final String SQL_CREATE_ENTRIES ="CREATE TABLE "+TodoEntry.TABLE_NAME+"("
@@ -39,9 +39,9 @@ TodoContract：存放其数据库表的属性名称及其SQL语句。
         public static final String TABLE_PRIORITY= "priority";
     }
     
-TodoDbHelper：定义数据库名、版本；创建数据库。其中我们要实现数据库的向上升级，给表增加priority属性
+TodoDbHelper：定义数据库名、版本；创建数据库。其中我们要实现数据库的向上升级，给表增加priority属性  
 
-@Override
+    @Override
     public void onCreate(SQLiteDatabase db) {
         //创建数据库,如果当前版本号不是最新版本，执行onUpgrade（）对数据库进行更新操作
         Log.d("SQL_CREATE_ENTRIES:",TodoContract.SQL_CREATE_ENTRIES);
@@ -66,9 +66,9 @@ TodoDbHelper：定义数据库名、版本；创建数据库。其中我们要�
 
 MainActivity:
 
-查询数据库，更新UI：将每一个元祖对应到一个note里面，得到一个list，根据list更新ui。  
-if(db==null)
-        {
+查询数据库，更新UI：将每一个元祖对应到一个note里面，得到一个list，根据list更新ui。 
+
+        if(db==null){
             return Collections.emptyList();
         }
         String[] projection ={
