@@ -65,7 +65,86 @@ TodoDbHelper：定义数据库名、版本；创建数据库。其中我们要�
     }
 
 MainActivity:
-查询数据库，将每一个元祖对应到一个note里面，得到一个list，根据list更新ui。更新原则是，
+
+查询数据库，更新UI：将每一个元祖对应到一个note里面，得到一个list，根据list更新ui。  
+if(db==null)
+        {
+            return Collections.emptyList();
+        }
+        String[] projection ={
+                BaseColumns._ID,
+                TodoContract.TodoEntry.TABLE_CONTENT,
+                TodoContract.TodoEntry.TABLE_STATE,
+                TodoContract.TodoEntry.TABLE_DATA,
+                TodoContract.TodoEntry.TABLE_PRIORITY,
+        };
+        Cursor cursor = null;
+        try{
+            cursor = db.query(
+                    TodoContract.TodoEntry.TABLE_NAME,
+                    projection,
+                    null,
+                    null,
+                    null,
+                    null,
+                    TodoContract.TodoEntry.TABLE_PRIORITY+" DESC"
+
+
+            );
+            list= new ArrayList<>();
+            while(cursor.moveToNext()){
+                String content = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.TABLE_CONTENT));
+                int state = cursor.getInt(cursor.getColumnIndex(TodoContract.TodoEntry.TABLE_STATE));
+                String pri = cursor.getString(cursor.getColumnIndex(TodoContract.TodoEntry.TABLE_PRIORITY));
+                long id = cursor.getLong(cursor.getColumnIndex(TodoContract.TodoEntry._ID));
+                long dateMs= cursor.getLong(cursor.getColumnIndexOrThrow(TodoContract.TodoEntry.TABLE_DATA));
+                Note n = new Note(id);
+                n.setPriority(pri);
+                Log.d("pri:",pri);
+                n.setContent(content);
+                n.setDate(new Date(dateMs));
+                n.setState(State.from(state));
+                list.add(n);
+            }
+        }
+        finally {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+        }
+
+对数据库的更新，删除方式参照pdf。  
+
+
+NoteActivity：  
+
+增加布局：一个说明的textview  和一个下拉列表 Spinner
+
+  <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:text="请选择事件的优先级："
+            android:textSize="20dp"
+            />
+        <Spinner
+            android:id="@+id/priority"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:entries="@array/Data"/>
+    </LinearLayout>
+   
+插入数据的方法如pdf。  
+
+
+
+
 
 
 
