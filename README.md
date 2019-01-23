@@ -7,12 +7,12 @@
 
 V1：  
 
-Id（INTEGER PRIMARY KEY AUTOINCREMENT）  content(text)  status(INTEGER)  date(long)
+Id（INTEGER PRIMARY KEY AUTOINCREMENT）  content(text)   status(INTEGER)    date(long)
 
 V2：  
 
-Id（INTEGER PRIMARY KEY AUTOINCREMENT）  content(text)  status(INTEGER)  date(long)
-priority(text)
+Id（INTEGER PRIMARY KEY AUTOINCREMENT）  content(text)   status(INTEGER)    date(long)  
+*priority(text)*
 
 数据库实现：  
 
@@ -40,6 +40,29 @@ TodoContract：存放其数据库表的属性名称及其SQL语句。
     }
     
 TodoDbHelper：定义数据库名、版本；创建数据库。其中我们要实现数据库的向上升级，给表增加priority属性
+
+@Override
+    public void onCreate(SQLiteDatabase db) {
+        //创建数据库,如果当前版本号不是最新版本，执行onUpgrade（）对数据库进行更新操作
+        Log.d("SQL_CREATE_ENTRIES:",TodoContract.SQL_CREATE_ENTRIES);
+        db.execSQL(TodoContract.SQL_CREATE_ENTRIES);
+        onUpgrade(db, FIRST_DATABASE_VERSION, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        //数据库更新
+        Log.d("SQL_ALTER_PRIORITY:",TodoContract.SQL_ALTER_PRIORITY);
+        for (int i=oldVersion;i<newVersion;i++){
+            switch (i){
+                case 1:db.execSQL(TodoContract.SQL_ALTER_PRIORITY);
+                Log.d("alter:",TodoContract.SQL_ALTER_PRIORITY);
+                break;
+                default:break;
+            }
+        }
+    }
 
 MainActivity:
 查询数据库，将每一个元祖对应到一个note里面，得到一个list，根据list更新ui。更新原则是，
