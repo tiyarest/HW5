@@ -121,7 +121,7 @@ NoteActivity：
 
 增加布局：一个说明的textview  和一个下拉列表 Spinner
 
-  <LinearLayout
+  '''<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -138,7 +138,7 @@ NoteActivity：
             android:layout_weight="2"
             android:layout_height="match_parent"
             android:entries="@array/Data"/>
-    </LinearLayout>
+    </LinearLayout>'''
    
 插入数据的方法如pdf。  
 
