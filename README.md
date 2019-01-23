@@ -3,7 +3,8 @@
 *第五次作业*
 
 *作业一：一个简单的TO-DO list app普通版+进阶*
-数据库设计：
+数据库设计：  
+
 V1：  
 
 Id（INTEGER PRIMARY KEY AUTOINCREMENT）  content(text)  status(INTEGER)  date(long)
@@ -17,7 +18,7 @@ priority(text)
 
 TodoContract：存放其数据库表的属性名称及其SQL语句。
 
-//创建表操作
+    //创建表操作
     public  static final String SQL_CREATE_ENTRIES ="CREATE TABLE "+TodoEntry.TABLE_NAME+"("
             +TodoEntry._ID +" INTEGER PRIMARY KEY AUTOINCREMENT," +TodoEntry.TABLE_CONTENT+" TEXT,"
             +TodoEntry.TABLE_STATE+" INTEGER,"+TodoEntry.TABLE_DATA+" LONG)";
